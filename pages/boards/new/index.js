@@ -57,16 +57,23 @@ export default function BoardsNewPage() {
 
   const onClickSubmit = async () => {
     if (writer && password && title && contents) {
-      const result = await createBoard({
-        variables: {
-          createBoardInput: {
-            writer,
-            password,
-            title,
-            contents,
+      try {
+        const result = await createBoard({
+          variables: {
+            createBoardInput: {
+              writer,
+              password,
+              title,
+              contents,
+            },
           },
-        },
-      });
+        });
+
+        console.log(result.data.createBoard._id);
+        router.push(`/boards/${result.data.createBoard._id}`);
+      } catch (error) {
+        alert(error.message);
+      }
     }
   };
 
