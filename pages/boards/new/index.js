@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { gql, useMutation } from "@apollo/client";
 import {
   Address,
   ButtonWrapper,
@@ -23,11 +24,21 @@ import {
   ZipcodeWrapper,
 } from "../../../styles/boardsNew";
 
+const CREATE_BOARD = gql`
+  mutation createBoard($createBoardInput: CreateBoardInput!) {
+    createBoard(createBoardInput: $createBoardInput) {
+      _id
+    }
+  }
+`;
+
 export default function BoardsNewPage() {
   const [writer, setWriter] = useState("");
   const [password, setPassword] = useState("");
   const [title, setTitle] = useState("");
   const [contents, setContents] = useState("");
+
+  const [createBoard] = useMutation(CREATE_BOARD);
 
   const onChangeWriter = (event) => {
     setWriter(event.target.value);
@@ -44,9 +55,18 @@ export default function BoardsNewPage() {
     setContents(event.target.value);
   };
 
-  const onClickSubmit = () => {
+  const onClickSubmit = async () => {
     if (writer && password && title && contents) {
-      alert("게시글이 등록되었습니다.");
+      const result = await createBoard({
+        variables: {
+          createBoardInput: {
+            writer,
+            password,
+            title,
+            contents,
+          },
+        },
+      });
     }
   };
 
