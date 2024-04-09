@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Address,
   ButtonWrapper,
@@ -23,26 +24,67 @@ import {
 } from "../../../styles/boardsNew";
 
 export default function BoardsNewPage() {
+  const [writer, setWriter] = useState("");
+  const [password, setPassword] = useState("");
+  const [title, setTitle] = useState("");
+  const [contents, setContents] = useState("");
+
+  const onChangeWriter = (event) => {
+    setWriter(event.target.value);
+  };
+  const onChangePassword = (event) => {
+    setPassword(event.target.value);
+  };
+
+  const onChangeTitle = (event) => {
+    setTitle(event.target.value);
+  };
+
+  const onChangeContents = (event) => {
+    setContents(event.target.value);
+  };
+
+  const onClickSubmit = () => {
+    if (writer && password && title && contents) {
+      alert("게시글이 등록되었습니다.");
+    }
+  };
+
   return (
     <Wrapper>
       <Title>게시글 등록</Title>
       <WriterWrapper>
         <InputWrapper>
           <Label>작성자</Label>
-          <Writer type="text" placeholder="이름을 적어주세요." />
+          <Writer
+            type="text"
+            onChange={onChangeWriter}
+            placeholder="이름을 적어주세요."
+          />
         </InputWrapper>
         <InputWrapper>
           <Label>비밀번호</Label>
-          <Password type="password" placeholder="비밀번호를 작성해주세요." />
+          <Password
+            type="password"
+            onChange={onChangePassword}
+            placeholder="비밀번호를 작성해주세요."
+          />
         </InputWrapper>
       </WriterWrapper>
       <InputWrapper>
         <Label>제목</Label>
-        <Subject type="text" placeholder="제목을 작성해주세요." />
+        <Subject
+          type="text"
+          onChange={onChangeTitle}
+          placeholder="제목을 작성해주세요."
+        />
       </InputWrapper>
       <InputWrapper>
         <Label>내용</Label>
-        <Contents placeholder="내용을 작성해주세요." />
+        <Contents
+          onChange={onChangeContents}
+          placeholder="내용을 작성해주세요."
+        />
       </InputWrapper>
       <InputWrapper>
         <Label>주소</Label>
@@ -71,7 +113,7 @@ export default function BoardsNewPage() {
         <RadioLabel htmlFor="image">사진</RadioLabel>
       </OptionWrapper>
       <ButtonWrapper>
-        <SubmitButton>등록하기</SubmitButton>
+        <SubmitButton onClick={onClickSubmit}>등록하기</SubmitButton>
       </ButtonWrapper>
     </Wrapper>
   );
